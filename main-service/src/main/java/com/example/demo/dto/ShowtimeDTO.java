@@ -22,4 +22,6 @@ public class ShowtimeDTO {
     // you know which Screening ID they are booking.
     private List<Long> screeningIds;
 
+    private List<Integer> availableSeats = List.of(60, 45, 2);
+
 }

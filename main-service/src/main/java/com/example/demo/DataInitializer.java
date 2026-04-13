@@ -42,7 +42,11 @@ public class DataInitializer implements CommandLineRunner {
                 new Theater("Miraj Cinemas", "Subhash Nagar, Delhi")
         );
 
-        theaterRepository.saveAll(theaters);
+        for(Theater th : theaters) {
+            if (!theaterRepository.existsByNameAndLocation(th.getName(), th.getLocation())) {
+                theaterRepository.save(th);
+            }
+        }
     }
 
     private void saveScreening(Theater t, LocalDate d, LocalTime time, BigDecimal p, Movie movie) {

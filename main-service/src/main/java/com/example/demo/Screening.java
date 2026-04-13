@@ -33,4 +33,7 @@ public class Screening {
     private LocalTime showTime;
 
     private BigDecimal price;
+
+    @Column(name = "available_seats")
+    private Integer availableSeats = 60;
 }

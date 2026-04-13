@@ -62,24 +62,34 @@ public class BookingService {
         );
 
         List<Theater> allTheaters = theaterRepository.findAll();
-
         return screeningRepository.saveAll(setScreening(allTheaters, movie));
     }
 
     public List<Screening> setScreening(List<Theater> theaters, Movie movie){
         LocalDate today = LocalDate.now();
-        List<Screening> newScreenings = new ArrayList<>();
+        List<Screening> generatedScreenings = new ArrayList<>();
+        List<Screening> finalScreenings = new ArrayList<>();
 
-            for(int i = 0; i <= 7; i++) {
+
+        for(int i = 0; i <= 7; i++) {
                 LocalDate date = today.plusDays(i);
 
                 for(Theater t : theaters){
-                    newScreenings.add(saveScreening(t, date, LocalTime.of(10, 0), new BigDecimal("250.00"), movie));
-                    newScreenings.add(saveScreening(t, date, LocalTime.of(14, 30), new BigDecimal("300.00"), movie));
-                    newScreenings.add(saveScreening(t, date, LocalTime.of(19, 0), new BigDecimal("350.00"), movie));
+                    generatedScreenings.add(saveScreening(t, date, LocalTime.of(10, 0), new BigDecimal("250.00"), movie));
+                    generatedScreenings.add(saveScreening(t, date, LocalTime.of(14, 30), new BigDecimal("300.00"), movie));
+                    generatedScreenings.add(saveScreening(t, date, LocalTime.of(19, 0), new BigDecimal("350.00"), movie));
                 }
     }
-        return newScreenings;
+
+        for (Screening s : generatedScreenings) {
+            // Check if this specific combo exists before adding it to the list
+            if (!screeningRepository.existsByTheaterAndMovieAndShowDateAndShowTime(
+                    s.getTheater(), s.getMovie(), s.getShowDate(), s.getShowTime())) {
+                finalScreenings.add(s);
+            }
+        }
+
+        return finalScreenings;
     }
 
     private Screening saveScreening(Theater t, LocalDate d, LocalTime time, BigDecimal p, Movie movie) {

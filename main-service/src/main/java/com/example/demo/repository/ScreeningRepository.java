@@ -1,12 +1,15 @@
 package com.example.demo.repository;
 
 import com.example.demo.Screening;
+import com.example.demo.Theater;
+import com.example.demo.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -22,4 +25,10 @@ public interface ScreeningRepository extends JpaRepository<Screening, Long> {
             @Param("date") LocalDate date
     );
 
+    boolean existsByTheaterAndMovieAndShowDateAndShowTime(
+            Theater theater,
+            Movie movie,
+            LocalDate showDate,
+            LocalTime showTime
+    );
 }

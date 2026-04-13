@@ -4,4 +4,5 @@ import com.example.demo.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TheaterRepository extends JpaRepository<Theater, Long> {
+    boolean existsByNameAndLocation(String name, String location);
 }
