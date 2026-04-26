@@ -17,10 +17,15 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "show_id") // This forces the link to your MySQL column
     private Long show_id;
+
+    @Enumerated(EnumType.STRING) // Ensures "AVAILABLE" is stored as a string, not a number
     private Status status;
     private Instant locked_at;
     private Long user_id;
+
+    @Version
     private Integer version;
 
 }
